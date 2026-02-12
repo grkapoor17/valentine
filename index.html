@@ -15,6 +15,7 @@
       align-items: center;
       height: 100vh;
       margin: 0;
+      overflow: hidden; /* important for hearts */
     }
 
     .card {
@@ -24,6 +25,7 @@
       max-width: 380px;
       text-align: center;
       box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+      z-index: 2;
     }
 
     h1 {
@@ -60,15 +62,36 @@
       margin-top: 24px;
       font-size: 18px;
     }
+
+    /* ❤️ Floating hearts */
+    .heart {
+      position: absolute;
+      bottom: -20px;
+      font-size: 24px;
+      animation: floatUp 4s linear forwards;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-110vh) scale(1.5);
+        opacity: 0;
+      }
+    }
   </style>
 </head>
 
 <body>
   <div class="card">
-    <h1>💖 Will you be my Valentine, Jahnavi?</h1>
+    <h1>💖 Will you be my Valentine, Jahn?</h1>
 
     <p>
-      I could’ve asked you normally,<br />
+      I know, I know, I could’ve asked you normally,<br />
       but I wanted to do something a little more special.
     </p>
 
@@ -88,6 +111,27 @@
     function accept() {
       document.querySelector("button").style.display = "none";
       document.getElementById("success").style.display = "block";
+
+      // create floating hearts
+      for (let i = 0; i < 30; i++) {
+        createHeart();
+      }
+    }
+
+    function createHeart() {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.innerText = "💖";
+
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.fontSize = 20 + Math.random() * 20 + "px";
+      heart.style.animationDuration = 3 + Math.random() * 2 + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 5000);
     }
   </script>
 </body>
